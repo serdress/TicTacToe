@@ -21,9 +21,17 @@ public class Board {
 	
 	public void shoot() {
 		Scanner sc = new Scanner(System.in);
-		int row = sc.nextInt();
-		int col = sc.nextInt();
+		System.out.print("Enter row: ");
+		int row = sc.nextInt()-1;
+		System.out.print("Enter col: ");
+		int col = sc.nextInt()-1;
+		if ((row > NUM_ROWS) || col > NUM_ROWS) {
+			System.out.println("Incorrect data");
+			shoot();
+		}
+		
 		if (board[row][col] != VOID) {
+			System.out.println("Enter a not used space");
 			return;
 		}
 		if (turn == 1) {
@@ -37,31 +45,42 @@ public class Board {
 	
 	public boolean line(char player) {
 		int counter = 0;
-		for (int i = 0; i < NUM_ROWS; i++) {
-			for (int j = 0; j < NUM_ROWS; j++) {
-				if (board[i][j] == player) {
+		for (int row = 0; row < NUM_ROWS; row++) {
+			for (int col = 0; col < NUM_ROWS; col++) {
+				if (board[row][col] == player) {
 				counter++;
 				}
 			}
 			if (counter == NUM_ROWS) {
 				return true;
 			}
+			System.out.println(player + " " + "Counter line " + row + " = "  + counter);
+
 			counter = 0;
 		}
-		
-		for (int i = 0; i < NUM_ROWS; i++) {
-			for (int j = 0; j < NUM_ROWS; j++) {
-				if (board[j][i] == player) {
+		for (int row = 0; row < NUM_ROWS; row++) {
+			for (int col = 0; col < NUM_ROWS; col++) {
+				if (board[row][col] == player) {
 				counter++;
 				}
 			}
 			if (counter == NUM_ROWS) {
 				return true;
 			}
+			System.out.println(player + " Counter cols = " + row + " = " + counter);
+
 			counter = 0;
 		}
 		
 		return false;
+	}
+	
+	public int getTurn() {
+		return turn;
+	}
+	
+	public char getPlayerSymbol() {
+	return (turn == 1) ? PLAYER1 : PLAYER2;
 	}
 	
 	public String toString() {
